@@ -45,7 +45,7 @@ const updateUser = (req, res, next) => {
   const owner = req.user._id;
   const {name, about} = req.body;
 
-  User.findByIdAndUpdate(owner, {name, about}, {new: true,runValidators: true, upsert:false})
+  User.findByIdAndUpdate(owner, {name, about}, {new: true,runValidators: true})
     .then(user => validateUser(res, user))
     .catch(err => {
       if (err.name === 'ValidationError') {
