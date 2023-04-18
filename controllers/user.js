@@ -19,7 +19,7 @@ const getUser = (req, res, next) => {
   const {userId} = req.params;
 
   User.findById(userId)
-    .then(user => res.send({user}))
+    .then(user => validateUser(res, user))
     .catch(err => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Пользователь по указанному _id не найден.'))
@@ -46,7 +46,7 @@ const updateUser = (req, res, next) => {
   const {name, about} = req.body;
 
   User.findByIdAndUpdate(owner, {name, about}, {new: true,runValidators: true})
-    .then(user => validateUser(user, res))
+    .then(user => validateUser(res, user))
     .catch(err => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'))
@@ -60,7 +60,7 @@ const updateAvatar = (req, res, next) => {
   const {avatar} = req.body;
 
   User.findByIdAndUpdate(owner, avatar,{new: true,runValidators: true})
-    .then(user => validateUser(user, res))
+    .then(user => validateUser(res, user))
     .catch(err => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'))
