@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.connect(`${DB_URL}/mestodb`);
 
 app.use((req, res, next) => {
-  req.user = { _id: '643c580a1e4bd947cf1d7e23' };
+  req.user = { _id: '64310d98ca35a3d2094b2d82' };
   next();
 });
 
