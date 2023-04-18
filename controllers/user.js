@@ -6,7 +6,7 @@ const validateUser= (res, user) => {
   if (!user) {
     throw new NotFoundError('Пользователь по указанному _id не найден.')
   }
-  res.send(user)
+  return res.send(user)
 }
 
 const getAllUsers = (req, res, next) => {
@@ -59,7 +59,7 @@ const updateAvatar = (req, res, next) => {
   const owner = req.user._id;
   const {avatar} = req.body;
 
-  User.findByIdAndUpdate(owner, avatar,{new: true,runValidators: true})
+  User.findByIdAndUpdate(owner, {avatar},{new: true,runValidators: true})
     .then(user => validateUser(res, user))
     .catch(err => {
       if (err.name === 'ValidationError') {
