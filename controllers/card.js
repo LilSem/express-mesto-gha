@@ -5,7 +5,7 @@ const validateCard = (res, card) => {
   if (!card) {
     throw new NotFoundError('Пользователь по указанному _id не найден.');
   }
-  return res.send(card);
+  res.send(card);
 };
 
 const getAllCards = (req, res, next) => {
@@ -23,7 +23,7 @@ const createCard = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при создании карточки. '));
       }
-      return next(err);
+      next(err);
     });
 };
 
@@ -41,7 +41,7 @@ const removeCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Неверный _id'));
       }
-      return next(err);
+      next(err);
     });
 };
 
@@ -54,7 +54,7 @@ const likeCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Переданы некорректные данные для постановки лайка.'));
       }
-      return next(err);
+      next(err);
     });
 };
 
@@ -67,7 +67,7 @@ const dislikeCard = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Переданы некорректные данные для снятия лайка.'));
       }
-      return next(err);
+      next(err);
     });
 };
 
