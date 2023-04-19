@@ -6,7 +6,7 @@ const validateUser = (res, user) => {
   if (!user) {
     throw new NotFoundError('Пользователь по указанному _id не найден.');
   }
-  res.send(user);
+  return res.send(user);
 };
 
 const getAllUsers = (req, res, next) => {
@@ -24,7 +24,7 @@ const getUser = (req, res, next) => {
       if (err.name === 'CastError') {
         return next(new BadRequestError('Пользователь по указанному _id не найден.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -37,7 +37,7 @@ const createUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -50,7 +50,7 @@ const updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -63,7 +63,7 @@ const updateAvatar = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
       }
-      next(err);
+      return next(err);
     });
 };
 
