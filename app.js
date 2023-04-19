@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { NotFoundError } = require('./errors/errorsExport');
+const { NotFoundError } = require("./errors/errorsExport");
 
 const app = express();
 
