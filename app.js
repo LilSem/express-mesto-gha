@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const { NotFoundError } = require('./errors/errorsExport');
+const { NotFoundError } = require("./errors/errorsExport");
 
 const app = express();
 
@@ -24,7 +24,7 @@ app.use(() => {
   throw new NotFoundError('Маршрут не найден :( ');
 });
 
-app.use((error, req, res) => {
+app.use((error, req, res, next) => {
   const { statusCode = 500, message } = error;
 
   res.status(statusCode).send({ message });
