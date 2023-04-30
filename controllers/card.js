@@ -35,7 +35,7 @@ const removeCard = (req, res, next) => {
       if (!card) {
         throw new NotFoundError('Карточка с указанным _id не найдена.');
       }
-      return res.send(card);
+      return res.send({ message: 'Удаление прошло успешно' });
     })
     .catch((err) => {
       if (err.name === 'CastError') {

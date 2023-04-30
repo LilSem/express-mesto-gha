@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const { NotFoundError } = require('./errors/errorsExport');
+const auth = require('./middlewares/auth');
 
 const app = express();
 
@@ -15,6 +16,10 @@ app.use((req, res, next) => {
   req.user = { _id: '643c580a1e4bd947cf1d7e23' };
   next();
 });
+
+app.use(require('./routes/login'));
+
+app.use(auth);
 
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
