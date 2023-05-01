@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const User = require('../models/user');
 
-const {BadRequestError, NotFoundError, UnauthorizedError, ConflictError} = require('../errors/errorsExport');
+const { BadRequestError, NotFoundError, UnauthorizedError, ConflictError } = require('../errors/errorsExport');
 
 const validateUser = (res, user) => {
   if (!user) {
@@ -16,21 +16,16 @@ const validateUser = (res, user) => {
 
 const getAllUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({users}))
+    .then((users) => res.send({ users }))
     .catch((err) => next(err));
 };
 
 const getUser = (req, res, next) => {
-  const {userId} = req.params;
+  const { userId } = req.params;
 
   User.findById(userId)
     .then((user) => validateUser(res, user))
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        return next(new BadRequestError('Пользователь по указанному _id не найден.'));
-      }
-      return next(err);
-    });
+    .catch(next)
 };
 
 const createUser = (req, res, next) => {
@@ -54,20 +49,16 @@ const createUser = (req, res, next) => {
       })
     })
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при создании пользователя.'));
-      }
       if (err.code === 11000) {
         return next(new ConflictError());
       }
-      return next(err);
     });
 };
 
 const updateUser = (req, res, next) => {
-  const {name, about} = req.body;
+  const { name, about } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, {name, about}, {new: true, runValidators: true})
+  User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -78,9 +69,9 @@ const updateUser = (req, res, next) => {
 };
 
 const updateAvatar = (req, res, next) => {
-  const {avatar} = req.body;
+  const { avatar } = req.body;
 
-  User.findByIdAndUpdate(req.user._id, {avatar}, {new: true, runValidators: true})
+  User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -91,10 +82,10 @@ const updateAvatar = (req, res, next) => {
 };
 
 const login = (req, res, next) => {
-  const {email, password} = req.body;
-  const {NODE_ENV, JWT_SECRET} = process.env;
+  const { email, password } = req.body;
+  const { NODE_ENV, JWT_SECRET } = process.env;
 
-  User.findOne({email})
+  User.findOne({ email })
     .select('+password')
     .then((user) => {
       if (!user) {
@@ -107,12 +98,12 @@ const login = (req, res, next) => {
           }
 
           const token = jwt.sign(
-            {_id: user._id},
+            { _id: user._id },
             NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
-            {expiresIn: '7d'}
+            { expiresIn: '7d' }
           );
 
-          res.send({token})
+          res.send({ token })
         })
     })
     .catch(next);

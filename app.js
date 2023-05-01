@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const { NotFoundError } = require('./errors/errorsExport');
 const auth = require('./middlewares/auth');
 
+const { errors } = require('celebrate');
+
 const app = express();
 
 const { PORT = 3000 } = process.env;
@@ -18,6 +20,8 @@ app.use((req, res, next) => {
 });
 
 app.use(require('./routes/login'));
+
+app.use(errors());
 
 app.use(auth);
 

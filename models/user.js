@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const isEmail = require('validator/lib/isEmail');
+const { regexUrl } = require('../utils/regex');
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -31,7 +32,11 @@ const userSchema = new mongoose.Schema({
   },
   avatar: {
     type: String,
-    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png'
+    default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
+    validate:{
+      validator: (avatar) => regexUrl.test(avatar),
+      message:'Ссылка не прошла проверку'
+    }
   }
 }, {
   versionKey: false

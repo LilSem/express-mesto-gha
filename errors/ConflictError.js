@@ -1,7 +1,7 @@
 class ConflictError extends Error {
   constructor() {
     super();
-    this.statusCode = 403;
+    this.statusCode = 409;
     this.message = 'Ошибка регистрации с указанным адресом электронной почты';
   }
 }
