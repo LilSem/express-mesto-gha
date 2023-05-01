@@ -60,12 +60,7 @@ const updateUser = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при обновлении профиля.'));
-      }
-      return next(err);
-    });
+    .catch(next)
 };
 
 const updateAvatar = (req, res, next) => {
@@ -73,12 +68,7 @@ const updateAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при обновлении аватара.'));
-      }
-      return next(err);
-    });
+    .catch(next());
 };
 
 const login = (req, res, next) => {

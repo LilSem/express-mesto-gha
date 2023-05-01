@@ -20,20 +20,33 @@ const signUpValidation = {
 
 const getUserValidation = {
   params: Joi.object().keys({
-    userId: Joi.string().alphanum().length(24),
+    userId: Joi.string().length(24).hex()
   })
 }
 
 const updateUserValidation = {
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
+    name: Joi.string().required().min(2).max(30),
+    about: Joi.string().required().min(2).max(30)
   })
 }
 
 const updateAvatarValidation = {
   body: Joi.object().keys({
-    avatar: Joi.string().regex(regexUrl)
+    avatar: Joi.string().required().min(2).regex(regexUrl)
+  })
+}
+
+const cardIdValidation = {
+  params: Joi.object().keys({
+    cardId: Joi.string().length(24).hex()
+  })
+}
+
+const createCardValidation = {
+  body: Joi.object().keys({
+    name: Joi.string().min(2).max(30),
+    link: Joi.string().regex(regexUrl)
   })
 }
 
@@ -43,5 +56,6 @@ module.exports = {
   getUserValidation,
   updateUserValidation,
   updateAvatarValidation,
-
+  cardIdValidation,
+  createCardValidation
 }
