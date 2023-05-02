@@ -14,11 +14,6 @@ app.use(express.urlencoded({ extended: true }));
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
-app.use((req, res, next) => {
-  req.user = { _id: '643c580a1e4bd947cf1d7e23' };
-  next();
-});
-
 app.use(require('./routes/login'));
 
 app.use(errors());

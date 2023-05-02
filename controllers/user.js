@@ -17,7 +17,7 @@ const validateUser = (res, user) => {
 const getAllUsers = (req, res, next) => {
   User.find({})
     .then((users) => res.send({ users }))
-    .catch((err) => next(err));
+    .catch(next);
 };
 
 const getUser = (req, res, next) => {
@@ -31,28 +31,28 @@ const getUser = (req, res, next) => {
 const createUser = (req, res, next) => {
   const { email, password, name, about, avatar } = req.body;
 
-  bcrypt.hash(password, 10)
-    .then(hashPassword =>
-      User.create({
-        email,
-        password: hashPassword,
-        name,
-        about,
-        avatar
-      }))
-    .then((user) => {
-      res.status(201).send({
-        name: user.name,
-        email: user.email,
-        about: user.about,
-        avatar: user.avatar
-      })
+  bcrypt.hash(password, 10).then((hashPassword) => {
+    User.create({
+      email,
+      password: hashPassword,
+      name,
+      about,
+      avatar
     })
-    .catch((err) => {
-      if (err.code === 11000) {
-        return next(new ConflictError());
-      }
-    });
+      .then((user) => {
+        res.status(201).send({
+          name: user.name,
+          email: user.email,
+          about: user.about,
+          avatar: user.avatar
+        });
+      })
+      .catch((err) => {
+        if (err.code === 11000) {
+          next(new ConflictError());
+        }
+      });
+  });
 };
 
 const updateUser = (req, res, next) => {
@@ -68,7 +68,7 @@ const updateAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
-    .catch(next());
+    .catch(next);
 };
 
 const login = (req, res, next) => {
