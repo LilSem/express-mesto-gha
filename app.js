@@ -16,9 +16,11 @@ mongoose.connect('mongodb://127.0.0.1:27017/mestodb');
 
 app.use(require('./routes/login'));
 app.use(auth);
-app.use(errors());
+
 app.use('/users', require('./routes/user'));
 app.use('/cards', require('./routes/card'));
+
+app.use(errors());
 
 app.use(() => {
   throw new NotFoundError('Маршрут не найден :( ');
