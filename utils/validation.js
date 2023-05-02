@@ -20,20 +20,20 @@ const signUpValidation = {
 
 const getUserValidation = {
   params: Joi.object().keys({
-    userId: Joi.string().length(24).hex()
+    userId: Joi.string().hex().length(24)
   })
 }
 
 const updateUserValidation = {
   body: Joi.object().keys({
-    name: Joi.string().required().min(2).max(30),
-    about: Joi.string().required().min(2).max(30)
+    name: Joi.string().min(2).max(30),
+    about: Joi.string().min(2).max(30)
   })
 }
 
 const updateAvatarValidation = {
   body: Joi.object().keys({
-    avatar: Joi.string().required().min(2).regex(regexUrl)
+    avatar: Joi.string().regex(regexUrl)
   })
 }
 
