@@ -1,6 +1,8 @@
 const router = require('express').Router();
+const { celebrate } = require('celebrate');
+
 const protectedDeleteCard = require('../middlewares/deleteCard');
-const { removeCardValidation, createCardValidation, cardIdValidation } = require('../utils/validation')
+const { createCardValidation, cardIdValidation } = require('../utils/validation');
 
 const {
   getAllCards,
@@ -9,7 +11,6 @@ const {
   likeCard,
   dislikeCard
 } = require('../controllers/card');
-const { celebrate } = require("celebrate");
 
 router.get('/', getAllCards);
 router.delete('/:cardId', celebrate(cardIdValidation), protectedDeleteCard, removeCard);

@@ -19,12 +19,7 @@ const createCard = (req, res, next) => {
 
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(201).send({ card }))
-    .catch((err) => {
-      if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы некорректные данные при создании карточки.'));
-      }
-      return next(err);
-    });
+    .catch(next);
 };
 
 const removeCard = (req, res, next) => {

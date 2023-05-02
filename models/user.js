@@ -7,9 +7,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
     unique: true,
-    validate:{
+    validate: {
       validator: (email) => isEmail(email),
-      message:'Введен некорректный адрес электронной почты'
+      message: 'Введен некорректный адрес электронной почты'
     }
   },
   password: {
@@ -33,9 +33,9 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default: 'https://pictures.s3.yandex.net/resources/jacques-cousteau_1604399756.png',
-    validate:{
+    validate: {
       validator: (avatar) => regexUrl.test(avatar),
-      message:'Ссылка не прошла проверку'
+      message: 'Ссылка не прошла проверку'
     }
   }
 }, {

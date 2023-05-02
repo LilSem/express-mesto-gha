@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { celebrate } = require('celebrate');
-const {  signInValidation, signUpValidation } = require('../utils/validation')
+const { signInValidation, signUpValidation } = require('../utils/validation');
 
 const {
   createUser,

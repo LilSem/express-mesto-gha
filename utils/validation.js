@@ -6,7 +6,7 @@ const signInValidation = {
     email: Joi.string().required().email(),
     password: Joi.string().required().min(8)
   })
-}
+};
 
 const signUpValidation = {
   body: Joi.object().keys({
@@ -16,39 +16,39 @@ const signUpValidation = {
     about: Joi.string().min(2).max(30),
     avatar: Joi.string().regex(regexUrl)
   })
-}
+};
 
 const getUserValidation = {
   params: Joi.object().keys({
     userId: Joi.string().hex().length(24)
   })
-}
+};
 
 const updateUserValidation = {
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
     about: Joi.string().min(2).max(30)
   })
-}
+};
 
 const updateAvatarValidation = {
   body: Joi.object().keys({
     avatar: Joi.string().regex(regexUrl)
   })
-}
+};
 
 const cardIdValidation = {
   params: Joi.object().keys({
     cardId: Joi.string().hex().length(24)
   })
-}
+};
 
 const createCardValidation = {
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30),
-    link: Joi.string().regex(regexUrl)
+    name: Joi.string().required().min(2).max(30),
+    link: Joi.string().required().regex(regexUrl)
   })
-}
+};
 
 module.exports = {
   signInValidation,
@@ -58,4 +58,4 @@ module.exports = {
   updateAvatarValidation,
   cardIdValidation,
   createCardValidation
-}
+};

@@ -1,5 +1,5 @@
 const Card = require('../models/card');
-const { ForbiddenError, NotFoundError } = require("../errors/errorsExport");
+const { ForbiddenError, NotFoundError } = require('../errors/errorsExport');
 
 module.exports = (req, res, next) => {
   const { cardId } = req.params;
