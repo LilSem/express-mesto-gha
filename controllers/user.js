@@ -6,7 +6,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 
 const {
-  NotFoundError, UnauthorizedError, ConflictError
+  NotFoundError, UnauthorizedError, ConflictError, BadRequestError
 } = require('../errors/errorsExport');
 
 const validateUser = (res, user) => {
@@ -49,11 +49,16 @@ const createUser = (req, res, next) => {
         });
       })
       .catch((err) => {
+        if (err.name === 'ValidationError') {
+          next(new BadRequestError('Некорректные данные при создании пользователя'));
+        }
         if (err.code === 11000) {
           next(new ConflictError());
+        } else {
+          next(err);
         }
       });
-  });
+  }).catch(next);
 };
 
 const updateUser = (req, res, next) => {
@@ -61,7 +66,12 @@ const updateUser = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Некорректные данные при обновлении пользователя'));
+      }
+      next(err);
+    });
 };
 
 const updateAvatar = (req, res, next) => {
@@ -69,7 +79,12 @@ const updateAvatar = (req, res, next) => {
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
     .then((user) => validateUser(res, user))
-    .catch(next);
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Некорректные данные при обновлении аватара пользователя'));
+      }
+      next(err);
+    });
 };
 
 const login = (req, res, next) => {

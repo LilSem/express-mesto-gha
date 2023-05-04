@@ -28,10 +28,10 @@ app.use(() => {
 });
 
 app.use((error, req, res, next) => {
-  const { statusCode = 500, message } = error;
+  const statusCode = error.statusCode || 500;
 
+  const message = statusCode === 500 ? 'На сервере произошла ошибка' : error.message;
   res.status(statusCode).send({ message });
-
   next();
 });
 
