@@ -50,13 +50,12 @@ const createUser = (req, res, next) => {
       })
       .catch((err) => {
         if (err.name === 'ValidationError') {
-          next(new BadRequestError('Некорректные данные при создании пользователя'));
+          return next(new BadRequestError('Некорректные данные при создании пользователя'));
         }
         if (err.code === 11000) {
-          next(new ConflictError());
-        } else {
-          next(err);
+          return next(new ConflictError());
         }
+          next(err);
       });
   }).catch(next);
 };
@@ -68,7 +67,7 @@ const updateUser = (req, res, next) => {
     .then((user) => validateUser(res, user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректные данные при обновлении пользователя'));
+        return next(new BadRequestError('Некорректные данные при обновлении пользователя'));
       }
       next(err);
     });
@@ -81,7 +80,7 @@ const updateAvatar = (req, res, next) => {
     .then((user) => validateUser(res, user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Некорректные данные при обновлении аватара пользователя'));
+        return next(new BadRequestError('Некорректные данные при обновлении аватара пользователя'));
       }
       next(err);
     });
