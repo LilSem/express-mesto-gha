@@ -55,7 +55,7 @@ const createUser = (req, res, next) => {
         if (err.code === 11000) {
           return next(new ConflictError());
         }
-          next(err);
+        return next(err);
       });
   }).catch(next);
 };
@@ -69,7 +69,7 @@ const updateUser = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Некорректные данные при обновлении пользователя'));
       }
-      next(err);
+      return next(err);
     });
 };
 
@@ -82,7 +82,7 @@ const updateAvatar = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Некорректные данные при обновлении аватара пользователя'));
       }
-      next(err);
+      return next(err);
     });
 };
 

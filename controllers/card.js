@@ -23,7 +23,7 @@ const createCard = (req, res, next) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Некорректные данные при создании карточки'));
       }
-      next(err);
+      return next(err);
     });
 };
 
